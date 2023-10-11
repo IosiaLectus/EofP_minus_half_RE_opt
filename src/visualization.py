@@ -52,7 +52,6 @@ def plot_optimum_difference(entanglement_entropy_AA, reflected_spectrum_AB,
     and use it for other q values.
     """
     plt.figure("Minimum $\delta$", figsize=figsize)
-    plt.title("Minimum $\delta$")
     for dim_key in entanglement_entropy_AA.keys():
         opt_diff_min = 10
         renyi_ind_opt = 0
