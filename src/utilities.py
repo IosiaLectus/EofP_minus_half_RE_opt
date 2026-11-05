@@ -251,7 +251,7 @@ def TripartiteInformation(state, A_indices, B_indices, C_indices,
     """Calculate tripartite information."""    
     ee_A   = EntanglementEntropy(state, A_indices, Renyi_index)
     ee_B   = EntanglementEntropy(state, B_indices, Renyi_index)
-    ee_C   = EntanglementEntropy(state, B_indices, Renyi_index)
+    ee_C   = EntanglementEntropy(state, C_indices, Renyi_index)
     ee_AB  = EntanglementEntropy(state, A_indices + B_indices, Renyi_index)
     ee_AC  = EntanglementEntropy(state, A_indices + C_indices, Renyi_index)
     ee_BC  = EntanglementEntropy(state, B_indices + C_indices, Renyi_index)
