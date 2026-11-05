@@ -1,5 +1,8 @@
 import math
 import torch
+import itertools
+import tensornetwork as tn
+from utilities import TripartiteInformation
 from utilities import partial_trace
 
 
@@ -49,3 +52,20 @@ def test_partial_trace_of_maximally_mixed_two_qubits():
     rho = torch.eye(4, dtype=torch.cfloat) / 4
     reduced = _pt(rho, [1])
     assert torch.allclose(reduced, 0.5 * torch.eye(2, dtype=torch.cfloat), atol=1e-6)
+
+def test_tripartite_information_symmetric_on_random_four_party_states():
+    """For a pure 4-party state, I3 is the same for every choice of three
+    parties and every ordering of the arguments. Checked on several
+    seeded random states with uneven local dimensions."""
+
+    gen = torch.Generator().manual_seed(3142)
+    for dims in [(2, 2, 2, 2), (3, 3, 2, 2), (4, 3, 2, 5)]:
+        for _ in range(5):
+            psi = torch.randn(dims, dtype=torch.cdouble, generator=gen)
+            psi = psi / torch.linalg.vector_norm(psi)
+            values = [
+                float(TripartiteInformation(tn.Node(psi.clone()), [a], [b], [c]))
+                for triple in itertools.combinations(range(4), 3)
+                for a, b, c in itertools.permutations(triple)
+            ]
+            assert max(values) - min(values) < 1e-6, (dims, values)
