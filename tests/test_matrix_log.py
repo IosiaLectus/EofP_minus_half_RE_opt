@@ -24,7 +24,7 @@ def test_logm_of_identity_is_zero():
 
 def test_logm_matches_scipy_directly():
     a = _random_spd()
-    expected = scipy.linalg.logm(a, disp=False)[0]
+    expected = scipy.linalg.logm(a)
     result = logm(torch.from_numpy(a)).numpy()
     assert np.allclose(result, expected, atol=1e-8)
 
