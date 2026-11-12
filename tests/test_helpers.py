@@ -138,6 +138,13 @@ def test_find_optimum_difference_finds_the_most_negative_difference():
         assert float(result[q]) == pytest.approx(min(candidates), abs=1e-6)
 
 
+def test_find_optimum_difference_is_non_negative_when_no_violation():
+    # every entropy - S_R/2 is positive, so the "optimum" stays at its initial 0
+    ee = {"a": [torch.tensor(5.0)]}
+    spec = {"a": [torch.tensor([0.5, 0.5])]}
+    assert float(find_optimum_difference(ee, spec, [1, 2])[1]) >= 0
+
+
 def test_find_optimum_difference_returns_one_entry_per_renyi_index():
     ee = {"a": [torch.tensor(0.0)]}
     spec = {"a": [torch.tensor([0.5, 0.5])]}
