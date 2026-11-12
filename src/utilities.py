@@ -152,8 +152,8 @@ def EntanglementEntropyNoSVD(state, A_indices, Renyi_index=1):
     dims = list(state.tensor.size())
     nparties = len(dims)
     B_indices = [i for i in range(nparties) if not i in A_indices]
-    A_dim = np.product([dims[i] for i in A_indices])
-    B_dim = np.product([dims[i] for i in B_indices])
+    A_dim = np.prod([dims[i] for i in A_indices])
+    B_dim = np.prod([dims[i] for i in B_indices])
     tot_dim = A_dim*B_dim 
     state_tensor = state.tensor
     state_tensor = state_tensor.reshape([tot_dim])
@@ -227,7 +227,7 @@ def ReflectedEntropySpectrum(density_mat, A_indices):
 def ReflectedEntropyNoSVD(density_mat, A_indices, Renyi_index=1, svd=True):
     dims = list(density_mat.tensor.size())
     nparties = len(dims)//2
-    tot_dim = np.product([dims[i] for i in range(nparties)])
+    tot_dim = np.prod([dims[i] for i in range(nparties)])
     rho = density_mat.tensor.reshape([tot_dim, tot_dim])
     log_rho = logm(rho).type(rho.type())
     purification = torch.matrix_exp(0.5*log_rho)
