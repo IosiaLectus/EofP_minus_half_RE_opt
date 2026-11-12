@@ -2,5 +2,6 @@ torch
 numpy
 scipy
 tensornetwork
+matplotlib
 tqdm
 pytest
