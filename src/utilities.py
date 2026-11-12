@@ -405,7 +405,7 @@ def find_optimum_difference(entanglement_entropy, reflected_ent_spectra,
     optimum_difference = {}
     for renyi_index in renyi_indices:
         reflected_entropy = np.zeros_like(reflected_ent_spectra)
-        opt_diff = 0
+        opt_diff = np.inf
         for renyi_key in reflected_ent_spectra.keys():
             for i_spec, spec in enumerate(reflected_ent_spectra[renyi_key]):
                 reflected_entropy = RenyiEntropy(spec, Renyi_index=renyi_index)
