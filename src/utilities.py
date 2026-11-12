@@ -152,8 +152,8 @@ def EntanglementEntropyNoSVD(state, A_indices, Renyi_index=1):
     dims = list(state.tensor.size())
     nparties = len(dims)
     B_indices = [i for i in range(nparties) if not i in A_indices]
-    A_dim = np.product([dims[i] for i in A_indices])
-    B_dim = np.product([dims[i] for i in B_indices])
+    A_dim = np.prod([dims[i] for i in A_indices])
+    B_dim = np.prod([dims[i] for i in B_indices])
     tot_dim = A_dim*B_dim 
     state_tensor = state.tensor
     state_tensor = state_tensor.reshape([tot_dim])
@@ -207,7 +207,7 @@ def DensityMatrixSpectrum(density_mat):
 # Compute Von Neuman entropy
 def VNEntropy(density_mat, Renyi_index=1):
     probs = DensityMatrixSpectrum(density_mat)
-    return RenyiEntropy(probs, Renyi_index=1)
+    return RenyiEntropy(probs, Renyi_index=Renyi_index)
 
 
 # Computed the reflected entropy spectrum (I think?)
@@ -227,7 +227,7 @@ def ReflectedEntropySpectrum(density_mat, A_indices):
 def ReflectedEntropyNoSVD(density_mat, A_indices, Renyi_index=1, svd=True):
     dims = list(density_mat.tensor.size())
     nparties = len(dims)//2
-    tot_dim = np.product([dims[i] for i in range(nparties)])
+    tot_dim = np.prod([dims[i] for i in range(nparties)])
     rho = density_mat.tensor.reshape([tot_dim, tot_dim])
     log_rho = logm(rho).type(rho.type())
     purification = torch.matrix_exp(0.5*log_rho)
@@ -251,7 +251,7 @@ def TripartiteInformation(state, A_indices, B_indices, C_indices,
     """Calculate tripartite information."""    
     ee_A   = EntanglementEntropy(state, A_indices, Renyi_index)
     ee_B   = EntanglementEntropy(state, B_indices, Renyi_index)
-    ee_C   = EntanglementEntropy(state, B_indices, Renyi_index)
+    ee_C   = EntanglementEntropy(state, C_indices, Renyi_index)
     ee_AB  = EntanglementEntropy(state, A_indices + B_indices, Renyi_index)
     ee_AC  = EntanglementEntropy(state, A_indices + C_indices, Renyi_index)
     ee_BC  = EntanglementEntropy(state, B_indices + C_indices, Renyi_index)
@@ -405,7 +405,7 @@ def find_optimum_difference(entanglement_entropy, reflected_ent_spectra,
     optimum_difference = {}
     for renyi_index in renyi_indices:
         reflected_entropy = np.zeros_like(reflected_ent_spectra)
-        opt_diff = 0
+        opt_diff = np.inf
         for renyi_key in reflected_ent_spectra.keys():
             for i_spec, spec in enumerate(reflected_ent_spectra[renyi_key]):
                 reflected_entropy = RenyiEntropy(spec, Renyi_index=renyi_index)

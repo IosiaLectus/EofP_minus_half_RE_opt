@@ -14,7 +14,7 @@ def adjoint(A, E, f):
     return f(M)[:n, n:].to(A.dtype)
 
 def logm_scipy(A):
-    return torch.from_numpy(scipy.linalg.logm(A.cpu(), disp=False)[0]).to(A.device)
+    return torch.from_numpy(scipy.linalg.logm(A.cpu())).to(A.device)
 
 class Logm(torch.autograd.Function):
     @staticmethod
