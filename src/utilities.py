@@ -207,7 +207,7 @@ def DensityMatrixSpectrum(density_mat):
 # Compute Von Neuman entropy
 def VNEntropy(density_mat, Renyi_index=1):
     probs = DensityMatrixSpectrum(density_mat)
-    return RenyiEntropy(probs, Renyi_index=1)
+    return RenyiEntropy(probs, Renyi_index=Renyi_index)
 
 
 # Computed the reflected entropy spectrum (I think?)
