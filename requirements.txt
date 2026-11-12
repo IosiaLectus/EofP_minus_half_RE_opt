@@ -1,5 +1,5 @@
 torch
-numpy<2
+numpy
 scipy
 tensornetwork
 tqdm
