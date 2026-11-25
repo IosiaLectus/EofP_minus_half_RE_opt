@@ -102,7 +102,7 @@ def plot_tripartite(states, entanglement_ent, reflected_ent_spectra,
             entang_ent = entanglement_ent[dim_key][f"{renyi_index}"][i_state]
             reflected_entropy = RenyiEntropy(spec, Renyi_index=renyi_index)
             deltas[i_state] = entang_ent - reflected_entropy / 2
-            tripartite_max = 0
+            tripartite_max = -np.inf
             for indices in l_indices:
                 A_indices = indices[0]
                 B_indices = indices[1]
